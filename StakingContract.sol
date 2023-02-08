@@ -41,7 +41,7 @@ contract ERC721Staking is ReentrancyGuard {
     }
 
     // Rewards per hour per token deposited in wei.
-    uint256 private rewardsPerHour = 100000;
+    uint256 private rewardsPerHour = 30000000000000000;
 
     // Mapping of User Address to Staker info
     mapping(address => Staker) public stakers;
@@ -61,11 +61,20 @@ contract ERC721Staking is ReentrancyGuard {
             stakers[msg.sender].unclaimedRewards += rewards;
         }
 
+        // Monthly staking reward
+        uint256 monthlyreward = 20170000000000000000;
+
+        // ERC20 balance of staking contract
+        uint256 erc20balance = rewardsToken.balanceOf(address(this));
+
         // Wallet must own the token they are trying to stake
         require(
             nftCollection.ownerOf(_tokenId) == msg.sender,
             "You don't own this token!"
         );
+
+        // ERC20 balance of staking contract must be greater or equal to monthly pay
+        require(monthlyreward <= erc20balance, "Insufficient liquidity for staking");
 
         // Transfer the token from the wallet to the Smart contract
         nftCollection.transferFrom(msg.sender, address(this), _tokenId);
