@@ -3,7 +3,7 @@ import { ChainId, ThirdwebProvider } from "@thirdweb-dev/react";
 import "../styles/globals.css";
 
 // This is the chainId your dApp will work on.
-const activeChainId = ChainId.Mumbai;
+const activeChainId = 1116;
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
